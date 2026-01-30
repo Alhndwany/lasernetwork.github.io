@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="منظومة الاتصالات الضوئية اللاسلكية الذكية - مشروع تخرج هندسي مبتكر لتراسل المعطيات بسرعة الضوء وأمان مطلق">
+    <meta name="keywords" content="اتصالات ضوئية, لاسلكية, ليزر, ESP32, مشروع تخرج, هندسة اتصالات">
+    <meta name="author" content="فريق مشروع منظومة الاتصالات الضوئية اللاسلكية">
+    <title>منظومة الاتصالات الضوئية اللاسلكية الذكية</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-right">
+    <!-- شريط التنقل -->
+    <nav id="navbar" class="fixed w-full z-50 bg-black bg-opacity-90 backdrop-blur-sm py-4 transition-all duration-300">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold">
+                    <span class="text-red-500">LiFi</span><span class="text-blue-400">Tech</span>
+                </div>
+                <div class="hidden md:flex space-x-8 space-x-reverse">
+                    <a href="#hero" class="nav-link hover:text-red-500 transition-colors duration-300">الرئيسية</a>
+                    <a href="#problem" class="nav-link hover:text-red-500 transition-colors duration-300">المشروع</a>
+                    <a href="#architecture" class="nav-link hover:text-red-500 transition-colors duration-300">العتاد</a>
+                    <a href="#workflow" class="nav-link hover:text-red-500 transition-colors duration-300">آلية العمل</a>
+                    <a href="#features" class="nav-link hover:text-red-500 transition-colors duration-300">المميزات</a>
+                    <a href="#team" class="nav-link hover:text-red-500 transition-colors duration-300">الفريق</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-red-500">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            <!-- القائمة المتنقلة للجوال -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-4">
+                <a href="#hero" class="block hover:text-red-500 transition-colors duration-300">الرئيسية</a>
+                <a href="#problem" class="block hover:text-red-500 transition-colors duration-300">المشروع</a>
+                <a href="#architecture" class="block hover:text-red-500 transition-colors duration-300">العتاد</a>
+                <a href="#workflow" class="block hover:text-red-500 transition-colors duration-300">آلية العمل</a>
+                <a href="#features" class="block hover:text-red-500 transition-colors duration-300">المميزات</a>
+                <a href="#team" class="block hover:text-red-500 transition-colors duration-300">الفريق</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- القسم الرئيسي -->
+    <section id="hero" class="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 bg-gradient-to-b from-black to-gray-900">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-red-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-1000"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 z-10">
+            <div class="text-center max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-blue-400">
+                        منظومة الاتصالات الضوئية اللاسلكية الذكية
+                    </span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-10 leading-relaxed">
+                    الحل الهندسي المبتكر لتراسل المعطيات بسرعة الضوء وأمان مطلق
+                </p>
+                <a href="#problem" class="inline-block px-8 py-4 bg-gradient-to-r from-red-600 to-blue-600 text-white font-bold rounded-lg hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-red-900/30">
+                    اكتشف التقنية
+                </a>
+            </div>
+            
+            <div class="mt-20 flex justify-center">
+                <div class="relative w-full max-w-3xl h-64">
+                    <div class="absolute left-0 top-1/2 transform -translate-y-1/2">
+                        <div class="tower pulse"></div>
+                        <p class="text-center mt-4 text-red-400">البرج المرسل</p>
+                    </div>
+                    
+                    <div class="absolute right-0 top-1/2 transform -translate-y-1/2">
+                        <div class="tower"></div>
+                        <p class="text-center mt-4 text-blue-400">البرج المستقبل</p>
+                    </div>
+                    
+                    <div class="laser-path absolute top-1/2 left-0 w-full h-1 bg-gray-800 transform -translate-y-1/2">
+                        <div id="laser-beam" class="laser-beam"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+            <a href="#problem" class="text-red-500 animate-bounce">
+                <i class="fas fa-chevron-down text-3xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- قسم فلسفة المشروع -->
+    <section id="problem" class="py-20 bg-gradient-to-b from-black to-gray-900">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center section-title">
+                فلسفة المشروع
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+                <div class="tech-card p-8 rounded-2xl">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-red-900 bg-opacity-30 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-times-circle text-red-400 text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-red-400">عيوب أنظمة الراديو التقليدية</h3>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="feature-item">
+                            <span class="font-bold text-red-300">التشويش الكهرومغناطيسي:</span> 
+                            <span class="text-gray-300">تداخل الترددات مع الأجهزة الأخرى مما يؤثر على جودة الإشارة</span>
+                        </li>
+                        <li class="feature-item">
+                            <span class="font-bold text-red-300">السرعة المحدودة:</span> 
+                            <span class="text-gray-300">عرض النطاق الترددي المحدود يقلل من سرعة نقل البيانات</span>
+                        </li>
+                        <li class="feature-item">
+                            <span class="font-bold text-red-300">الأمان المنخفض:</span> 
+                            <span class="text-gray-300">اختراق الترددات والتنصت على الإشارات بسهولة نسبية</span>
+                        </li>
+                        <li class="feature-item">
+                            <span class="font-bold text-red-300">التشبع الطيفي:</span> 
+                            <span class="text-gray-300">نقص الطيف الترددي المتاح مع تزايد عدد الأجهزة</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="tech-card p-8 rounded-2xl">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-blue-900 bg-opacity-30 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-exclamation-triangle text-blue-400 text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-blue-400">عيوب الألياف الضوئية</h3>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="feature-item">
+                            <span class="font-bold text-blue-300">التكلفة العالية:</span> 
+                            <span class="text-gray-300">تكاليف مد الكابلات في البنية التحتية الحضرية</span>
+                        </li>
+                        <li class="feature-item">
+                            <span class="font-bold text-blue-300">صعوبة التمديد:</span> 
+                            <span class="text-gray-300">تحتاج إلى مسارات مخصصة وقد تواجه عوائق طبيعية</span>
+                        </li>
+                        <li class="feature-item">
+                            <span class="font-bold text-blue-300">عدم المرونة:</span> 
+                            <span class="text-gray-300">صعوبة إعادة التوجيه عند التوسع أو التغيير في الشبكة</span>
+                        </li>
+                        <li class="feature-item">
+                            <span class="font-bold text-blue-300">تعطل الخدمة:</span> 
+                            <span class="text-gray-300">أي قطع في الكابل يؤدي إلى تعطل الاتصال بالكامل</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="tech-card p-8 rounded-2xl max-w-4xl mx-auto">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-gradient-to-r from-red-600 to-blue-600 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-lightbulb text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-blue-400">
+                        الحل المبتكر: منظومة الاتصالات الضوئية اللاسلكية
+                    </h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-xl font-bold text-red-400 mb-4">مزايا تقنية الليزر:</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-red-400 mt-1 ml-3"></i>
+                                <span>سرعة نقل بيانات تقارب سرعة الضوء (تيرابت في الثانية نظريًا)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-red-400 mt-1 ml-3"></i>
+                                <span>أمان عالي بسبب ضيق حزمة الليزر وصعوبة اعتراضها</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-red-400 mt-1 ml-3"></i>
+                                <span>عدم تأثرها بالتشويش الكهرومغناطيسي</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-blue-400 mb-4">مرونة الأنظمة اللاسلكية:</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-blue-400 mt-1 ml-3"></i>
+                                <span>سهلة النشر في المناطق الوعرة والمرتفعات</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-blue-400 mt-1 ml-3"></i>
+                                <span>تكلفة أقل مقارنة بتمديد كابلات الألياف الضوئية</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-blue-400 mt-1 ml-3"></i>
+                                <span>إمكانية إعادة التوجيه بسهولة حسب الحاجة</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 p-4 bg-gray-900 rounded-lg border-r-4 border-red-600">
+                    <p class="text-lg">
+                        <span class="font-bold text-red-400">الخلاصة:</span> 
+                        منظومتنا تجمع بين أفضل ما في العالمين: <span class="text-blue-400">سرعة الألياف الضوئية</span> و<span class="text-red-400">مرونة الاتصالات اللاسلكية</span>، مع تجنب عيوب كلا النظامين.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم العتاد والأنظمة -->
+    <section id="architecture" class="py-20 bg-gradient-to-b from-gray-900 to-black">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center section-title">
+                العتاد والأنظمة
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="tech-card p-6 rounded-2xl">
+                    <div class="step-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 text-red-400">المعالج ESP32</h3>
+                    <p class="text-gray-300 mb-4">
+                        معالج ثنائي النواة يعمل بتردد 240MHz، مزود بوحدات معالجة إشارات رقمية متقدمة.
+                    </p>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-cog text-blue-400 mt-1 ml-2"></i>
+                            <span>معالجة البيانات وتشفيرها باستخدام خوارزمية AES-256</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-sync-alt text-blue-400 mt-1 ml-2"></i>
+                            <span>نواة مخصصة للتحكم في الليزر، ونواة لمعالجة البيانات</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-shield-alt text-blue-400 mt-1 ml-2"></i>
+                            <span>وحدة تشفير مدمجة لحماية البيانات من الاعتراض</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="tech-card p-6 rounded-2xl">
+                    <div class="step-icon">
+                        <i class="fas fa-broadcast-tower"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 text-red-400">وحدة الإرسال والاستقبال</h3>
+                    <p class="text-gray-300 mb-4">
+                        تكامل متطور بين ليزر عالي الدقة وحساس LDR لتحقيق اتصال ضوئي مستقر.
+                    </p>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-lightbulb text-blue-400 mt-1 ml-2"></i>
+                            <span>ليزر 650nm بقوة 5mW مع عدسة تركيز قابلة للتعديل</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-sun text-blue-400 mt-1 ml-2"></i>
+                            <span>حساس LDR عالي الحساسية مع فلتر ضوئي لإزالة الضوضاء</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-bullseye text-blue-400 mt-1 ml-2"></i>
+                            <span>نظام توجيد آلي يحافظ على محاذاة الشعاع تلقائياً</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="tech-card p-6 rounded-2xl">
+                    <div class="step-icon">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 text-red-400">أنظمة التحكم</h3>
+                    <p class="text-gray-300 mb-4">
+                        واجهة تحكم متكاملة تتيح إدارة المنظومة يدوياً أو تلقائياً حسب الحاجة.
+                    </p>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-gamepad text-blue-400 mt-1 ml-2"></i>
+                            <span>وحدات تحكم يدوي (Joystick) لتوجيه الليزر بدقة</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-robot text-blue-400 mt-1 ml-2"></i>
+                            <span>نظام توجيه آلي يستخدم الخوارزميات للبحث عن الإشارة</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-desktop text-blue-400 mt-1 ml-2"></i>
+                            <span>شاشة تحكم مدمجة تعرض حالة النظام والإحصائيات</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- رسم توضيحي للبنية -->
+            <div class="tech-card p-8 rounded-2xl max-w-5xl mx-auto">
+                <h3 class="text-2xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-blue-400">
+                    البنية التقنية المتكاملة
+                </h3>
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div class="mb-8 md:mb-0">
+                        <div class="w-64 h-64 bg-gradient-to-br from-gray-900 to-black rounded-full flex items-center justify-center border-2 border-red-600 border-opacity-30 relative">
+                            <div class="w-48 h-48 bg-gradient-to-tr from-gray-800 to-black rounded-full flex items-center justify-center border-2 border-blue-600 border-opacity-30">
+                                <div class="w-32 h-32 bg-black rounded-full flex flex-col items-center justify-center border-2 border-red-500 border-opacity-50">
+                                    <i class="fas fa-microchip text-red-400 text-3xl mb-2"></i>
+                                    <span class="text-sm font-bold text-red-400">ESP32</span>
+                                </div>
+                            </div>
+                            
+                            <!-- العناصر الخارجية -->
+                            <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gray-900 rounded-lg flex items-center justify-center border border-blue-600">
+                                <i class="fas fa-satellite-dish text-blue-400"></i>
+                            </div>
+                            <div class="absolute top-1/2 -right-2 transform -translate-y-1/2 w-16 h-16 bg-gray-900 rounded-lg flex items-center justify-center border border-red-600">
+                                <i class="fas fa-lightbulb text-red-400"></i>
+                            </div>
+                            <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-gray-900 rounded-lg flex items-center justify-center border border-blue-600">
+                                <i class="fas fa-desktop text-blue-400"></i>
+                            </div>
+                            <div class="absolute top-1/2 -left-2 transform -translate-y-1/2 w-16 h-16 bg-gray-900 rounded-lg flex items-center justify-center border border-red-600">
+                                <i class="fas fa-wifi text-red-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="md:w-1/2">
+                        <h4 class="text-xl font-bold text-red-400 mb-4">التكامل النظامي</h4>
+                        <p class="text-gray-300 mb-6">
+                            تعمل جميع مكونات المنظومة بتكامل تام حيث يتولى معالج ESP32 تنسيق العمليات بين:
+                        </p>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <div class="w-8 h-8 bg-red-600 bg-opacity-20 rounded-full flex items-center justify-center ml-3 flex-shrink-0">
+                                    <i class="fas fa-arrow-right text-red-400"></i>
+                                </div>
+                                <span>وحدة الإرسال الضوئي (الليزر) وتعديل الإشارة</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="w-8 h-8 bg-blue-600 bg-opacity-20 rounded-full flex items-center justify-center ml-3 flex-shrink-0">
+                                    <i class="fas fa-arrow-left text-blue-400"></i>
+                                </div>
+                                <span>وحدة الاستقبال (LDR) وفك تشفير البيانات</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="w-8 h-8 bg-purple-600 bg-opacity-20 rounded-full flex items-center justify-center ml-3 flex-shrink-0">
+                                    <i class="fas fa-cogs text-purple-400"></i>
+                                </div>
+                                <span>أنظمة التحكم التلقائي واليدوي في التوجيه</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="w-8 h-8 bg-gradient-to-r from-red-600 to-blue-600 bg-opacity-20 rounded-full flex items-center justify-center ml-3 flex-shrink-0">
+                                    <i class="fas fa-shield-alt text-white"></i>
+                                </div>
+                                <span>أنظمة الأمان والتشفير وحماية القنوات</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم آلية العمل -->
+    <section id="workflow" class="py-20 bg-gradient-to-b from-black to-gray-900 relative">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center section-title">
+                آلية العمل التفاعلي
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div class="tech-card p-6 rounded-2xl h-full">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-2xl font-bold text-red-400">محاكاة انتقال البيانات</h3>
+                            <div class="flex items-center space-x-2 space-x-reverse">
+                                <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                                <span class="text-sm text-gray-300" id="connection-status">جاهز للاتصال</span>
+                            </div>
+                        </div>
+                        
+                        <div class="relative bg-black border border-gray-800 rounded-lg overflow-hidden mb-6">
+                            <!-- Canvas لمحاكاة انتقال البيانات -->
+                            <canvas id="simulation-canvas" class="w-full h-96"></canvas>
+                            
+                            <!-- مؤشرات الحالة -->
+                            <div class="absolute top-4 left-4 bg-black bg-opacity-80 rounded-lg p-3 border border-red-600">
+                                <div class="text-sm font-bold text-red-400 mb-1">الحالة:</div>
+                                <div id="status-indicator" class="text-sm text-green-400">انتظار الإدخال</div>
+                            </div>
+                            
+                            <!-- مؤشرات البرجين -->
+                            <div id="tower1-indicator" class="absolute bottom-4 left-20 bg-black bg-opacity-80 rounded-lg p-2 border border-blue-600">
+                                <div class="text-xs text-blue-400">البرج المرسل</div>
+                            </div>
+                            
+                            <div id="tower2-indicator" class="absolute bottom-4 right-20 bg-black bg-opacity-80 rounded-lg p-2 border border-blue-600">
+                                <div class="text-xs text-blue-400">البرج المستقبل</div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <!-- لوحة التحكم -->
+                            <div class="bg-gray-900 rounded-lg p-4 border border-gray-800">
+                                <h4 class="text-lg font-bold text-red-400 mb-4">لوحة التحكم</h4>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-sm text-gray-300 mb-2">أدخل الرسالة:</label>
+                                    <div class="flex">
+                                        <input type="text" id="message-input" 
+                                               class="flex-grow bg-gray-800 border border-gray-700 rounded-r-lg p-3 text-white focus:outline-none focus:border-red-500"
+                                               placeholder="اكتب رسالتك هنا..." 
+                                               maxlength="50"
+                                               value="مرحباً بالاتصالات الضوئية">
+                                        <button id="send-btn" class="bg-gradient-to-r from-red-600 to-blue-600 text-white font-bold px-4 rounded-l-lg hover:opacity-90 transition-opacity">
+                                            إرسال
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-sm text-gray-300 mb-2">سرعة المحاكاة:</label>
+                                    <div class="flex items-center space-x-3 space-x-reverse">
+                                        <span class="text-xs text-gray-400">بطيئة</span>
+                                        <input type="range" id="speed-slider" min="1" max="10" value="5" class="flex-grow accent-red-600">
+                                        <span class="text-xs text-gray-400">سريعة</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex space-x-2 space-x-reverse">
+                                    <button id="reset-btn" class="flex-grow bg-gray-800 text-gray-300 font-bold py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                                        إعادة تعيين
+                                    </button>
+                                    <button id="demo-btn" class="flex-grow bg-gradient-to-r from-blue-600 to-red-600 text-white font-bold py-2 rounded-lg hover:opacity-90 transition-opacity">
+                                        تشغيل تجريبي
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- معلومات العملية -->
+                            <div class="bg-gray-900 rounded-lg p-4 border border-gray-800">
+                                <h4 class="text-lg font-bold text-blue-400 mb-4">معلومات العملية</h4>
+                                
+                                <div class="space-y-4">
+                                    <div>
+                                        <div class="text-sm text-gray-400 mb-1">الرسالة الأصلية:</div>
+                                        <div id="original-message" class="text-sm bg-gray-800 p-2 rounded border border-gray-700 min-h-10">-</div>
+                                    </div>
+                                    
+                                    <div>
+                                        <div class="text-sm text-gray-400 mb-1">البيانات الثنائية:</div>
+                                        <div id="binary-data" class="text-xs font-mono bg-gray-800 p-2 rounded border border-gray-700 min-h-10 overflow-x-auto">-</div>
+                                    </div>
+                                    
+                                    <div>
+                                        <div class="text-sm text-gray-400 mb-1">الرسالة المستقبَلة:</div>
+                                        <div id="received-message" class="text-sm bg-gray-800 p-2 rounded border border-gray-700 min-h-10">-</div>
+                                    </div>
+                                    
+                                    <div class="pt-2 border-t border-gray-800">
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-gray-400">عدد البتات:</span>
+                                            <span id="bits-count" class="text-blue-400">0</span>
+                                        </div>
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-gray-400">زمن الإرسال:</span>
+                                            <span id="transmission-time" class="text-red-400">0ms</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center text-sm text-gray-500">
+                            <p>انقر على "إرسال" لمشاهدة عملية نقل البيانات عبر شعاع الليزر في الوقت الفعلي</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="tech-card p-6 rounded-2xl h-full">
+                        <h3 class="text-2xl font-bold mb-6 text-blue-400">مراحل انتقال البيانات</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-red-900 rounded-full flex items-center justify-center ml-4 flex-shrink-0">
+                                    <i class="fas fa-keyboard text-red-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg text-red-300 mb-1">المرحلة 1: إدخال البيانات</h4>
+                                    <p class="text-gray-300 text-sm">إدخال الرسالة النصية في الطرف المرسل</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center ml-4 flex-shrink-0">
+                                    <i class="fas fa-code text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg text-blue-300 mb-1">المرحلة 2: الترميز</h4>
+                                    <p class="text-gray-300 text-sm">تحويل النص إلى بيانات ثنائية (0 و 1)</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-purple-900 rounded-full flex items-center justify-center ml-4 flex-shrink-0">
+                                    <i class="fas fa-arrow-up text-purple-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg text-purple-300 mb-1">المرحلة 3: الصعود</h4>
+                                    <p class="text-gray-300 text-sm">ارسال البيانات الثنائية لأعلى البرج المرسل</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-gradient-to-r from-red-800 to-blue-800 rounded-full flex items-center justify-center ml-4 flex-shrink-0">
+                                    <i class="fas fa-bolt text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-blue-400 mb-1">المرحلة 4: الإرسال اللاسلكي</h4>
+                                    <p class="text-gray-300 text-sm">نقل البيانات عبر شعاع ليزر بين البرجين</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center ml-4 flex-shrink-0">
+                                    <i class="fas fa-arrow-down text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg text-blue-300 mb-1">المرحلة 5: النزول</h4>
+                                    <p class="text-gray-300 text-sm">استقبال البيانات ونزولها في البرج المستقبل</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-green-900 rounded-full flex items-center justify-center ml-4 flex-shrink-0">
+                                    <i class="fas fa-laptop text-green-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg text-green-300 mb-1">المرحلة 6: فك الترميز</h4>
+                                    <p class="text-gray-300 text-sm">تحويل البيانات الثنائية إلى نص وعرضها</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 p-4 bg-gray-900 rounded-lg border-r-4 border-red-600">
+                            <p class="text-sm">
+                                <span class="font-bold text-red-400">معلومة:</span> 
+                                السرعة النظرية لنقل البيانات بالليزر تصل إلى 100 جيجابت/ثانية، مما يسمح بنقل هذا المحتوى في أقل من جزء من المليون من الثانية.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الميزات البرمجية المتقدمة -->
+    <section id="features" class="py-20 bg-gradient-to-b from-gray-900 to-black">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center section-title">
+                الميزات البرمجية المتقدمة
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <div class="tech-card p-8 rounded-2xl">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-red-900 bg-opacity-30 rounded-full flex items-center justify-center ml-4">
+                            <i class="fas fa-route text-red-400 text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-red-400">المسار الاحتياطي (Redundant Path)</h3>
+                    </div>
+                    <p class="text-gray-300 mb-6">
+                        عند انقطاع الإشارة الضوئية بسبب عوائق طارئة (طيور، غيوم كثيفة)، يتحول النظام تلقائياً إلى مسار احتياطي.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-satellite text-blue-400 mt-1 ml-2"></i>
+                            <span>نظام توجيه متعدد المسارات مع خريطة مسارات مسبقة الإعداد</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-sync-alt text-blue-400 mt-1 ml-2"></i>
+                            <span>زمن تحويل لا يتجاوز 50 مللي ثانية عند اكتشاف انقطاع</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-robot text-blue-400 mt-1 ml-2"></i>
+                            <span>خوارزميات ذكية تختار المسار الأمثل بناءً على الظروف الجوية</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="tech-card p-8 rounded-2xl">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-blue-900 bg-opacity-30 rounded-full flex items-center justify-center ml-4">
+                            <i class="fas fa-clipboard-list text-blue-400 text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-blue-400">سجل الأخطاء وفحص الشبكة</h3>
+                    </div>
+                    <p class="text-gray-300 mb-6">
+                        نظام مراقبة متكامل يسجل جميع الأحداث والأخطاء ويوفر أدوات تشخيص متقدمة.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-history text-red-400 mt-1 ml-2"></i>
+                            <span>سجل زمني مفصل لجميع عمليات الإرسال والاستقبال</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-bug text-red-400 mt-1 ml-2"></i>
+                            <span>تصنيف الأخطاء حسب النوع والشدة مع اقتراحات الحل</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-network-wired text-red-400 mt-1 ml-2"></i>
+                            <span>أدوات فحص الشبكة (Ping) لقياس زمن الوصول وجودة الاتصال</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="tech-card p-8 rounded-2xl max-w-4xl mx-auto">
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-gradient-to-r from-red-600 to-blue-600 rounded-full flex items-center justify-center ml-4">
+                        <i class="fas fa-exchange-alt text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-blue-400">
+                        بروتوكول TCP لموثوقية البيانات
+                    </h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-xl font-bold text-red-400 mb-4">نظام التأكيد (ACK)</h4>
+                        <p class="text-gray-300 mb-4">
+                            يعتمد النظام على بروتوكول TCP معدل لضمان استلام جميع الحزم البيانات بشكل كامل.
+                        </p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-double text-blue-400 mt-1 ml-2"></i>
+                                <span>إرسال إشعار استلام (ACK) لكل حزمة بيانات</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-redo text-blue-400 mt-1 ml-2"></i>
+                                <span>إعادة إرسال تلقائية للحزم المفقودة أو التالفة</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-sort-amount-up text-blue-400 mt-1 ml-2"></i>
+                                <span>تحكم في التدفق يمنع ازدحام الشبكة</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-blue-400 mb-4">تسلسل وتركيب البيانات</h4>
+                        <p class="text-gray-300 mb-4">
+                            تقسيم البيانات إلى حزم صغيرة مع إعادة تجميعها تلقائياً عند الاستلام.
+                        </p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-layer-group text-red-400 mt-1 ml-2"></i>
+                                <span>ترقيم تسلسلي لكل حزمة لضمان الترتيب الصحيح</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-puzzle-piece text-red-400 mt-1 ml-2"></i>
+                                <span>إعادة تركيب الحزم تلقائياً عند الطرف المستقبل</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-tachometer-alt text-red-400 mt-1 ml-2"></i>
+                                <span>مراقبة أداء الشبكة وتعديل حجم الحزم ديناميكياً</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 p-4 bg-gray-900 rounded-lg border-r-4 border-red-600">
+                    <p class="text-lg">
+                        <span class="font-bold text-red-400">ميزة إضافية:</span> 
+                        النظام يدعم تشفير من طرف إلى طرف (End-to-End Encryption) بحيث لا يمكن فك تشفير البيانات إلا عند الطرف المستقبل المصرح به.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الفريق والاعتماد الأكاديمي -->
+    <section id="team" class="py-20 bg-gradient-to-b from-black to-gray-900">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center section-title">
+                الفريق والاعتماد الأكاديمي
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="tech-card p-8 rounded-2xl flex flex-col items-center">
+                    <div class="w-40 h-40 bg-gradient-to-br from-red-900 to-blue-900 rounded-full flex items-center justify-center mb-8 border-4 border-red-600">
+                        <i class="fas fa-university text-6xl text-red-400"></i>
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold text-center mb-6 text-red-400">جامعة التقنية المتقدمة</h3>
+                    <p class="text-gray-300 text-center mb-8">
+                        مشروع تخرج بقسم هندسة الاتصالات والحاسوب<br>
+                        برعاية كلية الهندسة والتكنولوجيا
+                    </p>
+                    
+                    <div class="mt-auto w-full">
+                        <h4 class="text-xl font-bold mb-4 text-blue-400">تحت إشراف</h4>
+                        <div class="p-4 bg-gray-900 rounded-lg">
+                            <p class="text-lg font-bold text-center">أ.د. محمد العلي</p>
+                            <p class="text-gray-400 text-center">رئيس قسم هندسة الاتصالات والحاسوب</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tech-card p-8 rounded-2xl">
+                    <h3 class="text-2xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-blue-400">
+                        فريق العمل
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center p-4 bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors">
+                            <div class="w-16 h-16 bg-gradient-to-br from-red-700 to-blue-700 rounded-full flex items-center justify-center ml-4">
+                                <i class="fas fa-user-astronaut text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-red-300">أحمد السعدي</h4>
+                                <p class="text-gray-400">قائد الفريق - هندسة أنظمة الاتصالات</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors">
+                            <div class="w-16 h-16 bg-gradient-to-br from-red-700 to-blue-700 rounded-full flex items-center justify-center ml-4">
+                                <i class="fas fa-user-cog text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-red-300">سارة الكندري</h4>
+                                <p class="text-gray-400">مهندسة عتاد وأنظمة تحكم</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors">
+                            <div class="w-16 h-16 bg-gradient-to-br from-red-700 to-blue-700 rounded-full flex items-center justify-center ml-4">
+                                <i class="fas fa-code text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-blue-300">خالد الرشيد</h4>
+                                <p class="text-gray-400">مبرمج أنظمة وبروتوكولات الاتصال</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors">
+                            <div class="w-16 h-16 bg-gradient-to-br from-red-700 to-blue-700 rounded-full flex items-center justify-center ml-4">
+                                <i class="fas fa-chart-network text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-blue-300">نورة الشمري</h4>
+                                <p class="text-gray-400">مهندسة شبكات وتحليل أداء</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 pt-8 border-t border-gray-800">
+                        <h4 class="text-xl font-bold mb-4 text-center text-red-400">فترة المشروع</h4>
+                        <div class="flex justify-center">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-red-400">2024</div>
+                                <div class="text-gray-400">سنة التخرج</div>
+                            </div>
+                            <div class="mx-8 text-gray-400 text-2xl">-</div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-blue-400">8</div>
+                                <div class="text-gray-400">أشهر من العمل</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center">
+                <p class="text-gray-400 text-lg">
+                    جميع الحقوق محفوظة لفريق مشروع منظومة الاتصالات الضوئية اللاسلكية الذكية © 2024
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- شريط التقدم -->
+    <div id="scroll-progress" class="fixed top-0 left-0 w-0 h-1 bg-gradient-to-r from-red-600 to-blue-600 z-50"></div>
+
+    <script src="script.js"></script>
+    <script src="simulation.js"></script>
+</body>
+</html>
